@@ -19,35 +19,59 @@
 
     .popup {
       position: relative;
-      background: rgba(15, 15, 50, 0.95);
-      border: 3px solid #00f7ff;
-      padding: 35px 55px;
+      padding: 45px 65px;
       text-align: center;
-      border-radius: 20px;
+      border-radius: 25px;
       color: #fff;
-      box-shadow: 0 0 25px #00f7ff, 0 0 50px #00f7ff;
-      animation: pop 0.6s ease-out forwards, glow 2s infinite alternate;
-      max-width: 500px;
+      max-width: 520px;
+      background: linear-gradient(135deg, rgba(10,10,50,0.95), rgba(0,0,0,0.95));
+      border: 3px solid transparent;
+      background-clip: padding-box;
+      animation: pop 0.6s ease-out forwards, floaty 3s infinite ease-in-out;
+      box-shadow: 
+        0 0 25px #00f7ff,
+        0 0 50px #00f7ff,
+        inset 0 0 20px rgba(0,255,255,0.2);
+    }
+
+    /* Shimmer border effect */
+    .popup::before {
+      content: "";
+      position: absolute;
+      inset: -3px;
+      border-radius: 25px;
+      padding: 3px;
+      background: linear-gradient(130deg, #00f7ff, #ff00ea, #ffdf40, #00f7ff);
+      background-size: 300% 300%;
+      animation: borderGlow 6s linear infinite;
+      -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+              mask-composite: exclude;
+      pointer-events: none;
     }
 
     .popup h1 {
       font-family: 'Orbitron', sans-serif;
-      font-size: 2.8rem;
+      font-size: 3rem;
       margin: 0;
-      background: linear-gradient(45deg, #ffdf40, #ff6f00, #ff0055);
+      background: linear-gradient(45deg, #ffdf40, #ff6f00, #ff0055, #ff00ea);
+      background-size: 200% 200%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 20px rgba(255, 223, 64, 0.8);
-      animation: bounce 1s infinite;
+      text-shadow: 0 0 25px rgba(255, 223, 64, 0.9), 0 0 40px rgba(255, 0, 234, 0.8);
+      animation: bounce 1.2s infinite, gradientFlow 4s linear infinite;
     }
 
     .popup p {
-      font-size: 1.2rem;
-      margin-top: 18px;
+      font-size: 1.3rem;
+      margin-top: 20px;
       line-height: 1.6;
-      color: #c4f5ff;
       font-weight: 500;
-      text-shadow: 0 0 12px #00e6ff;
+      color: #d7faff;
+      text-shadow: 0 0 14px #00e6ff;
+      animation: fadeUp 1s ease-out;
     }
 
     /* Pop Animation */
@@ -57,16 +81,36 @@
       100% { transform: scale(1); }
     }
 
-    /* Glow Animation */
-    @keyframes glow {
-      from { box-shadow: 0 0 20px #00f7ff, 0 0 40px #00f7ff; }
-      to { box-shadow: 0 0 35px #ff00ea, 0 0 70px #ff00ea; }
-    }
-
-    /* Bounce Effect */
-    @keyframes bounce {
+    /* Floating Effect */
+    @keyframes floaty {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
+    }
+
+    /* Glow border animation */
+    @keyframes borderGlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Gradient Flow */
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Bounce Title */
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    /* Text fade-up */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
