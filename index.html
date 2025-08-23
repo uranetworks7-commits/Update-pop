@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URA-Battle PopUp</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at center, #0a0a2a, #000);
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+    }
+
+    .popup {
+      position: relative;
+      background: rgba(15, 15, 50, 0.95);
+      border: 3px solid #00f7ff;
+      padding: 35px 55px;
+      text-align: center;
+      border-radius: 20px;
+      color: #fff;
+      box-shadow: 0 0 25px #00f7ff, 0 0 50px #00f7ff;
+      animation: pop 0.6s ease-out forwards, glow 2s infinite alternate;
+      max-width: 500px;
+    }
+
+    /* Close Button */
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.8rem;
+      color: #ff3366;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    .close-btn:hover {
+      transform: rotate(90deg) scale(1.2);
+      color: #ff0055;
+    }
+
+    .popup h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.8rem;
+      margin: 0;
+      background: linear-gradient(45deg, #ffdf40, #ff6f00, #ff0055);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px rgba(255, 223, 64, 0.8);
+      animation: bounce 1s infinite;
+    }
+
+    .popup p {
+      font-size: 1.2rem;
+      margin-top: 18px;
+      line-height: 1.6;
+      color: #c4f5ff;
+      font-weight: 500;
+      text-shadow: 0 0 12px #00e6ff;
+    }
+
+    /* Pop Animation */
+    @keyframes pop {
+      0% { transform: scale(0.2); opacity: 0; }
+      80% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+
+    /* Glow Animation */
+    @keyframes glow {
+      from { box-shadow: 0 0 20px #00f7ff, 0 0 40px #00f7ff; }
+      to { box-shadow: 0 0 35px #ff00ea, 0 0 70px #ff00ea; }
+    }
+
+    /* Bounce Effect */
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* Fade-out when closing */
+    .fade-out {
+      animation: fadeOut 0.6s forwards;
+    }
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: scale(0.7);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="popup" id="popupBox">
+    <span class="close-btn" onclick="closePopup()">×</span>
+    <h1>URA-Battle is Live</h1>
+    <p>This Biggest Tournament Is Live<br>Check Your Schedule Now</p>
+  </div>
+
+  <script>
+    function closePopup() {
+      const popup = document.getElementById('popupBox');
+      popup.classList.add('fade-out');
+      setTimeout(() => popup.style.display = 'none', 600);
+    }
+  </script>
+</body>
+</html>
