@@ -3,88 +3,214 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>URA-Battle PopUp</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <title>URA-Battle CHAMPIONS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.0/dist/confetti.browser.js"></script>
   <style>
+    /* General Styling & Background
+    Switched theme to dark-gold/championship blue
+    */
     body {
       margin: 0;
       height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: radial-gradient(circle at center, #0a0a2a, #000);
+      background: radial-gradient(circle at center, #010418, #000);
       font-family: 'Poppins', sans-serif;
       overflow: hidden;
     }
 
+    /* Popup Container */
     .popup {
       position: relative;
-      padding: 45px 65px;
+      padding: 45px 55px;
       text-align: center;
       border-radius: 25px;
       color: #fff;
       max-width: 520px;
-      background: linear-gradient(135deg, rgba(10,10,50,0.95), rgba(0,0,0,0.95));
+      width: 90%; /* Responsive width */
+      /* Dark background with a slight gold/blue sheen */
+      background: linear-gradient(145deg, rgba(15,15,60,0.98), rgba(0,0,0,0.98));
       border: 3px solid transparent;
       background-clip: padding-box;
-      animation: pop 0.6s ease-out forwards, floaty 3s infinite ease-in-out;
-      box-shadow: 
-        0 0 25px #00f7ff,
-        0 0 50px #00f7ff,
-        inset 0 0 20px rgba(0,255,255,0.2);
+      /* Main animations: Pop-up and gentle float */
+      animation: pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, floaty 3.5s infinite ease-in-out;
+      /* Gold/Orange glow shadow */
+      box-shadow:
+        0 0 25px #ffcc00,
+        0 0 50px #ff8c00,
+        inset 0 0 20px rgba(255, 215, 0, 0.15);
     }
 
-    /* Shimmer border effect */
+    /* Shimmer border effect (GOLD) */
     .popup::before {
       content: "";
       position: absolute;
       inset: -3px;
       border-radius: 25px;
       padding: 3px;
-      background: linear-gradient(130deg, #00f7ff, #ff00ea, #ffdf40, #00f7ff);
+      /* Dynamic Gold/Orange/Red gradient for the border */
+      background: linear-gradient(130deg, #ffd700, #ff8c00, #ff4500, #ffd700);
       background-size: 300% 300%;
       animation: borderGlow 6s linear infinite;
-      -webkit-mask: 
-        linear-gradient(#fff 0 0) content-box, 
+      /* Mask to create the border effect */
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
         linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
               mask-composite: exclude;
       pointer-events: none;
     }
 
+    /* Championship Title */
     .popup h1 {
       font-family: 'Orbitron', sans-serif;
-      font-size: 3rem;
-      margin: 0;
-      background: linear-gradient(45deg, #ffdf40, #ff6f00, #ff0055, #ff00ea);
+      font-size: 2.8rem;
+      margin: 0 0 30px 0;
+      font-weight: 800;
+      /* Gold to Orange gradient text */
+      background: linear-gradient(45deg, #fff3b0, #ffd700, #ff8c00, #e67e22);
       background-size: 200% 200%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 25px rgba(255, 223, 64, 0.9), 0 0 40px rgba(255, 0, 234, 0.8);
+      /* Intense glow */
+      text-shadow: 0 0 15px rgba(255, 223, 64, 0.9), 0 0 30px rgba(255, 140, 0, 0.8);
       animation: bounce 1.2s infinite, gradientFlow 4s linear infinite;
     }
 
-    .popup p {
-      font-size: 1.3rem;
-      margin-top: 20px;
-      line-height: 1.6;
-      font-weight: 500;
-      color: #d7faff;
-      text-shadow: 0 0 14px #00e6ff;
-      animation: fadeUp 1s ease-out;
+    /* Champions List Styling */
+    .champions-list {
+      list-style: none;
+      padding: 0;
+      margin: 30px 0 35px 0; /* Added bottom margin for button space */
+      text-align: left;
+      font-family: 'Orbitron', sans-serif;
+      animation: listFadeIn 1s ease-out 0.5s backwards;
     }
+    
+    .champions-list li {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+      padding: 10px 0;
+      font-size: 1.3rem;
+      line-height: 1.2;
+      font-weight: 600;
+      color: #ffecb3; /* Light gold text */
+      text-shadow: 0 0 8px #ffcc00;
+      border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .champions-list li:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .champions-list li:hover {
+        color: #fff;
+        text-shadow: 0 0 15px #ffd700;
+        transform: translateX(5px) scale(1.02);
+    }
+    
+    .rank-icon {
+        font-size: 1.8rem;
+        margin-right: 18px;
+        min-width: 40px;
+        text-align: center;
+    }
+
+    /* Highlight for the first winner */
+    .champions-list li:first-child {
+        /* Golden-white gradient text */
+        background: linear-gradient(45deg, #FFF, #FFD700, #FFE0B2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent; /* Fallback */
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 215, 0, 0.7);
+        transform: scale(1.08) translateX(5px);
+        animation: firstWinnerGlow 1.5s infinite alternate; /* Gentle pulsating glow */
+        border-bottom: 2px solid #ffd700; /* Stronger border */
+    }
+
+    .champions-list li:first-child .rank-icon {
+        color: #ffd700; /* Ensure crown icon is golden */
+        text-shadow: 0 0 10px #ffcc00;
+    }
+
+    /* Celebration Button Styling */
+    #celebrate-btn {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 1.1rem;
+        font-weight: 800;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        
+        /* Neon Blue/Cyberpunk Gold Gradient Button */
+        background: linear-gradient(90deg, #1e90ff, #ffd700);
+        color: #010418; /* Dark text for contrast */
+        box-shadow:
+            0 0 10px rgba(30, 144, 255, 0.6),
+            0 0 20px rgba(255, 215, 0, 0.8);
+    }
+
+    #celebrate-btn:hover {
+        background: linear-gradient(90deg, #ffd700, #1e90ff);
+        color: #fff;
+        box-shadow:
+            0 0 15px #ffd700,
+            0 0 30px #1e90ff;
+        transform: scale(1.05);
+    }
+    
+    #celebrate-btn:active {
+        transform: scale(0.98);
+        filter: brightness(1.2);
+    }
+    /* Media query for smaller screens */
+    @media (max-width: 500px) {
+        .popup {
+            padding: 30px 20px;
+        }
+        .popup h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        .champions-list li {
+            font-size: 1.1rem;
+        }
+        .rank-icon {
+            font-size: 1.5rem;
+            margin-right: 10px;
+            min-width: 30px;
+        }
+        #celebrate-btn {
+            font-size: 0.9rem;
+            padding: 10px 20px;
+        }
+    }
+
+    /* -------------------
+       Animations
+       ------------------- */
 
     /* Pop Animation */
     @keyframes pop {
       0% { transform: scale(0.2); opacity: 0; }
-      80% { transform: scale(1.1); opacity: 1; }
+      80% { transform: scale(1.05); opacity: 1; }
       100% { transform: scale(1); }
     }
 
     /* Floating Effect */
     @keyframes floaty {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+      50% { transform: translateY(-8px); }
     }
 
     /* Glow border animation */
@@ -104,20 +230,123 @@
     /* Bounce Title */
     @keyframes bounce {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    /* List item fade in */
+    @keyframes listFadeIn {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Text fade-up */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    /* First Winner Glow Animation */
+    @keyframes firstWinnerGlow {
+        0% { text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 215, 0, 0.7); }
+        100% { text-shadow: 0 0 15px rgba(255, 255, 255, 1), 0 0 30px rgba(255, 140, 0, 0.9); }
     }
   </style>
 </head>
 <body>
   <div class="popup" id="popupBox">
-    <h1>URA-Battle is Live</h1>
-    <p>This Biggest Tournament Is Live<br>Check Your Schedule Now</p>
+    <h1>URA Battle T2 CHAMPIONS ✨</h1>
+    
+    <ul class="champions-list">
+        <li><span class="rank-icon">👑</span> 1. Eren Yeager</li>
+        <li><span class="rank-icon">🥈</span> 2. Venom</li>
+        <li><span class="rank-icon">🥉</span> 3. Raj</li>
+        <li><span class="rank-icon">🏅</span> 4. Harsh Rai</li>
+    </ul>
+
+    <button id="celebrate-btn">Click to Celebrate! 🥳</button>
+
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const button = document.getElementById('celebrate-btn');
+        let confettiInterval = null;
+        let fireworksInterval = null; // New interval for fireworks
+        let isCelebrating = false;
+
+        // Custom confetti function for the championship feel
+        function shootConfetti() {
+            // Gold, Blue, and White/Silver colors
+            const colors = ['#ffd700', '#ff8c00', '#1e90ff', '#ffffff'];
+
+            confetti({
+                particleCount: 100, // Number of pieces
+                spread: 120, // Spread angle
+                origin: { y: 0.6 }, // Shoot from the middle of the screen
+                angle: 90, // Straight up
+                gravity: 0.8, // Fall rate
+                decay: 0.92, // How quickly they disappear
+                ticks: 200, // Duration of the effect
+                colors: colors
+            });
+        }
+
+        // Fireworks function
+        function shootFireworks() {
+            const duration = 1.5 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 }; // Adjusted zIndex
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+                // since particles fall down, we can simulate a "cascade" effect by controlling where the
+                // animation is launched from
+                confetti(Object.assign({}, defaults, {
+                    particleCount,
+                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+                    colors: ['#FFD700', '#FF4500', '#FFFFFF', '#1E90FF'] // Gold, Orange, White, Blue
+                }));
+                confetti(Object.assign({}, defaults, {
+                    particleCount,
+                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+                    colors: ['#FFD700', '#FF4500', '#FFFFFF', '#1E90FF'] // Gold, Orange, White, Blue
+                }));
+            }, 250);
+        }
+
+
+        // Toggle function to start/stop the looping confetti and fireworks
+        function toggleCelebration() {
+            if (isCelebrating) {
+                // Stop the loops
+                clearInterval(confettiInterval);
+                clearInterval(fireworksInterval); // Clear fireworks interval
+                confettiInterval = null;
+                fireworksInterval = null;
+                button.textContent = 'Click to Celebrate! 🥳';
+                isCelebrating = false;
+            } else {
+                // Start the loops and run them immediately
+                shootConfetti();
+                shootFireworks(); // Initial fireworks blast
+                confettiInterval = setInterval(shootConfetti, 1200); // Shoot a burst every 1.2 seconds
+                fireworksInterval = setInterval(shootFireworks, 2500); // Shoot fireworks every 2.5 seconds
+                button.textContent = 'Stop Celebration! 🛑';
+                isCelebrating = true;
+            }
+        }
+
+        // Add event listener to the button
+        button.addEventListener('click', toggleCelebration);
+
+        // Initial single blast on load for effect (optional)
+        shootConfetti();
+        shootFireworks(); // Initial fireworks on load
+    });
+  </script>
 </body>
 </html>
