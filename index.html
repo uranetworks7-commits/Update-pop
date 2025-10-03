@@ -20,15 +20,14 @@
     }
 
     /* --- Pop-up Containers (For positioning multiple pop-ups) --- */
+    /* Container for the Champion Pop-up (Positioned First) */
     #popup-container-1 {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 10;
-        /* Ensure it starts visible */
-        opacity: 1;
-        transition: opacity 0.3s ease, transform 0.3s ease;
+        /* Animation is applied directly to the .popup element inside */
     }
 
     /* Container for the Data Storage Pop-up (Initially Hidden) */
@@ -38,10 +37,10 @@
         left: 65%;
         transform: translate(-50%, -50%);
         z-index: 12;
-        /* START HIDDEN: Opaque and scaled to 0 */
+        /* Start Hidden - Will be made visible by JavaScript */
         opacity: 0;
         transform: translate(-50%, -50%) scale(0);
-        transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        transition: opacity 0.5s ease-out; /* Smooth fade-in if not using a specific pop animation */
     }
 
     /* --- Champion Pop-up Styling (Existing) --- */
@@ -64,28 +63,6 @@
         0 0 50px #ff8c00,
         inset 0 0 20px rgba(255, 215, 0, 0.15);
     }
-
-    /* CLOSE BUTTON Styling (NEW) */
-    #close-champion-btn {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        background: none;
-        border: none;
-        color: #ffd700;
-        font-size: 1.5rem;
-        cursor: pointer;
-        line-height: 1;
-        opacity: 0.7;
-        transition: opacity 0.2s, transform 0.2s;
-        padding: 5px;
-        z-index: 20;
-    }
-    #close-champion-btn:hover {
-        opacity: 1;
-        transform: rotate(90deg) scale(1.1);
-    }
-
 
     /* Shimmer border effect (GOLD) */
     .popup::before {
@@ -183,10 +160,11 @@
             0 0 20px rgba(255, 215, 0, 0.8);
     }
 
-    /* --- URA Data Storage Pop-up Styling (Second Pop-up) --- */
+    /* --- URA Data Storage Pop-up Styling (NEW) --- */
+    /* Adjusted padding for the removal of the button */
     .data-popup {
         position: relative;
-        padding: 30px 40px 35px 40px;
+        padding: 30px 40px 35px 40px; /* Increased bottom padding slightly for visual balance */
         text-align: center;
         border-radius: 15px;
         color: #fff;
@@ -236,9 +214,27 @@
 
     .data-popup p {
         font-size: 1.1rem;
-        margin-bottom: 0;
+        margin-bottom: 0; /* Removed margin-bottom since the button is gone */
         color: #b3ecff;
     }
+
+    /* Data Storage Button (Removed, but style kept for reference)
+    #data-btn {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 1rem;
+        font-weight: 600;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        background: #00ffff;
+        color: #010418;
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+    }
+    */
 
     /* Media query for smaller screens (Omitted for brevity, using existing styles) */
     @media (max-width: 500px) {
@@ -258,41 +254,55 @@
         }
         .data-popup {
             max-width: 280px;
-            padding: 20px 25px 25px 25px;
+            padding: 20px 25px 25px 25px; /* Adjusted padding */
         }
     }
 
     /* -------------------
-       Animations (Kept as-is)
+       Animations
        ------------------- */
+
+    /* Pop Animation for Champion Pop-up (Existing) */
     @keyframes pop {
       0% { transform: scale(0.2); opacity: 0; }
       80% { transform: scale(1.05); opacity: 1; }
       100% { transform: scale(1); }
     }
+
+    /* Pop Animation for Data Pop-up (NEW, used with .data-popup-active) */
     @keyframes pop-data {
       0% { transform: scale(0.1) rotate(15deg); opacity: 0.1; }
       70% { transform: scale(1.08) rotate(-5deg); opacity: 0.9; }
       100% { transform: scale(1) rotate(0deg); opacity: 0.9; }
     }
+
+    /* Floating Effect (Existing) */
     @keyframes floaty {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-8px); }
     }
+
+    /* Floating Effect for Data Pop-up (NEW, used with .data-popup-active) */
     @keyframes floaty-data {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-5px); }
     }
+
+    /* Glow border animation (Existing) */
     @keyframes borderGlow {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
+
+    /* Glow border animation for Data Pop-up (NEW) */
     @keyframes borderGlowData {
       0% { background-position: 100% 50%; }
       50% { background-position: 0% 50%; }
       100% { background-position: 100% 50%; }
     }
+
+    /* Other existing animations (Bounce, GradientFlow, etc.) are kept as-is */
     @keyframes gradientFlow {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
@@ -315,8 +325,6 @@
 <body>
   <div id="popup-container-1">
     <div class="popup" id="popupBox">
-      <button id="close-champion-btn">✕</button>
-
       <h1>URA Battle T2 CHAMPIONS ✨</h1>
 
       <ul class="champions-list">
@@ -334,13 +342,11 @@
     <div class="data-popup" id="dataPopupBox">
         <h2>URA Data Storage</h2>
         <p>Use URA Data Storage and Earn Exclusive Rewards, **OPEN Now**</p>
-    </div>
+        </div>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const championPopupContainer = document.getElementById('popup-container-1');
-        const closeChampionButton = document.getElementById('close-champion-btn');
         const celebrateButton = document.getElementById('celebrate-btn');
         const dataPopupContainer = document.getElementById('popup-container-2');
         const dataPopupBox = document.getElementById('dataPopupBox');
@@ -348,42 +354,19 @@
         let fireworksInterval = null;
         let isCelebrating = false;
 
-        // --- Pop-up Sequencing Logic (MODIFIED) ---
+        // --- Pop-up Sequencing Logic (NEW) ---
+        // Wait 1.5 seconds after the first pop-up appears, then show the second one
+        setTimeout(() => {
+            // 1. Make the container visible and start the CSS transition/animation
+            dataPopupContainer.style.opacity = '1';
+            dataPopupContainer.style.transform = 'translate(-50%, -50%) scale(1)';
 
-        /**
-         * Closes the Champion pop-up and immediately loads the Data Storage pop-up.
-         */
-        function closeChampionAndShowData() {
-            // 1. Stop any ongoing celebration
-            if (isCelebrating) {
-                toggleCelebration(); // Toggles off celebration effects
-            }
+            // 2. Add the class to start the specific pop-in and floating animations
+            // This ensures the custom 'pop-data' and 'floaty-data' animations begin
+            dataPopupBox.classList.add('data-popup-active');
+        }, 1500); // 1.5 second delay
 
-            // 2. Hide the Champion pop-up smoothly
-            championPopupContainer.style.opacity = '0';
-            championPopupContainer.style.transform = 'translate(-50%, -50%) scale(0.8)';
-
-            // 3. Wait for the Champion pop-up to fade out, then show the second one
-            setTimeout(() => {
-                // Remove the first container from layout (optional, but good practice)
-                championPopupContainer.style.display = 'none';
-
-                // Make the second container visible and start its animation
-                dataPopupContainer.style.opacity = '1';
-                // Reset transform to ensure transition works, then let the class handle the pop
-                dataPopupContainer.style.transform = 'translate(-50%, -50%) scale(1)';
-                
-                // Add the class to start the specific pop-in and floating animations
-                dataPopupBox.classList.add('data-popup-active');
-
-            }, 300); // Matches the opacity transition time
-        }
-
-        // Add event listener to the NEW close button
-        closeChampionButton.addEventListener('click', closeChampionAndShowData);
-
-
-        // --- Existing Celebration Functions (Kept as-is) ---
+        // --- Existing Celebration Functions ---
 
         function shootConfetti() {
             const colors = ['#ffd700', '#ff8c00', '#1e90ff', '#ffffff'];
@@ -444,8 +427,10 @@
             }
         }
 
-        // Add event listener to the existing celebration button
+        // Add event listeners
         celebrateButton.addEventListener('click', toggleCelebration);
+
+        // REMOVED: document.getElementById('data-btn').addEventListener('click', ...);
 
         // Initial single blast on load for effect (runs concurrently with Pop-up 1)
         shootConfetti();
