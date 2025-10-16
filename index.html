@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>URA-Battle PopUp</title>
+  <title>URA-Battle PopUp with Fireworks</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
@@ -15,6 +15,16 @@
       background: radial-gradient(circle at center, #0a0a2a, #000);
       font-family: 'Poppins', sans-serif;
       overflow: hidden;
+    }
+
+    /* Container for both popup and its centered, overlayed canvas */
+    .popup-container {
+        position: relative; /* Essential for positioning the canvas */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
     }
 
     .popup {
@@ -32,8 +42,21 @@
         0 0 25px #00f7ff,
         0 0 50px #00f7ff,
         inset 0 0 20px rgba(0,255,255,0.2);
+      z-index: 10; /* Ensure popup content is above its own canvas layer if needed */
     }
 
+    /* Fireworks Canvas Styling - Center it over the popup */
+    #fireworks-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px; /* Define a fixed area for the explosion */
+      height: 500px; /* Define a fixed area for the explosion */
+      pointer-events: none; /* Allows clicks to pass through to the body */
+      z-index: 20; /* Ensure canvas is above the popup's visible content */
+    }
+    
     /* Shimmer border effect */
     .popup::before {
       content: "";
@@ -81,10 +104,14 @@
       100% { transform: scale(1); }
     }
 
-    /* Floating Effect */
+    /* Floating Effect - Removed transform from floaty to avoid conflict with `translate` on the canvas */
     @keyframes floaty {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+      0%, 100% { } 
+      50% { }
+    }
+    
+    .popup-container .popup {
+        animation: pop 0.6s ease-out forwards; /* Only keep pop, the canvas will float */
     }
 
     /* Glow border animation */
@@ -115,9 +142,359 @@
   </style>
 </head>
 <body>
-  <div class="popup" id="popupBox">
-    <h1>𝚄𝚁𝙰 Create Carnival </h1>
-    <p>URA Create Carnival (Coming Soon) Tournament Start From (15/10/25)</p>
+  <div class="popup-container">
+    <canvas id="fireworks-overlay"></canvas>
+    
+    <div class="popup" id="popupBox">
+      <h1>𝚄𝚁𝙰 Create Carnival Is Live</h1>
+      <p>URA Create Carnival Is Now Started, Create Your Project Now, Submission Date:-21/10/25</p>
+    </div>
   </div>
+
+<script>
+const canvas = document.getElementById("fireworks-overlay");
+const ctx = canvas.getContext("2d");
+
+// Set canvas dimensions to its CSS defined size
+let cw = canvas.clientWidth;
+let ch = canvas.clientHeight;
+canvas.width = cw;
+canvas.height = ch;
+
+const colors = ["#ff5722", "#2196f3", "#4caf50", "#ffc107", "#ffffff", "#e91e63", "#673ab7"];
+
+function random(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+// --- Particle Class (Unchanged) ---
+class Particle {
+  constructor(x, y, color, speedScale = 1, sizeScale = 1, heavy = false, dud = false) {
+    this.x = x;
+    this.y = y;
+    this.color = color;
+    this.size = random(0.5, 2.5) * sizeScale;
+    this.angle = random(0, Math.PI * 2);
+    this.speed = random(0.5, 8) * speedScale; 
+    this.gravity = heavy ? 0.2 : (dud ? 0.35 : 0.08); // Heavy gravity for duds
+    this.alpha = 1;
+    this.decay = random(0.02, 0.05); 
+    this.dud = dud;
+  }
+  update() {
+    this.x += Math.cos(this.angle) * this.speed;
+    this.y += Math.sin(this.angle) * this.speed + this.gravity;
+    // Duds lose speed faster and decay slower to burn longer
+    this.speed *= (this.dud ? 0.96 : 0.95); 
+    this.alpha -= (this.dud ? 0.015 : this.decay);
+  }
+  draw() {
+    ctx.globalAlpha = this.alpha;
+    ctx.fillStyle = this.color;
+    // Dud particles can be slightly larger and have a spark/ember color
+    if (this.dud) {
+        ctx.fillStyle = random(0, 1) < 0.8 ? '#ffdf40' : '#ff4500';
+        ctx.shadowBlur = 4;
+        ctx.shadowColor = ctx.fillStyle;
+    } else {
+        ctx.shadowBlur = 0;
+    }
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+    ctx.globalAlpha = 1; 
+  }
+}
+
+// --- Base Firework Class (Modified) ---
+class Firework {
+  constructor(x, y) {
+    // Launch position is now passed in
+    this.x = x; 
+    this.y = y;
+    this.initialY = ch;
+    // Target explosion near the center/top center of the canvas
+    this.targetY = random(ch * 0.2, ch * 0.4); 
+    this.speed = random(5, 10); 
+    this.color = colors[Math.floor(random(0, colors.length - 2))]; 
+    this.trail = [];
+    this.exploded = false;
+    this.isDud = Math.random() < 0.15; // 15% chance of being a dud
+    this.vibrating = false;
+    this.vibrationCounter = 0;
+    this.vibrationDuration = 10;
+  }
+  
+  update() {
+    if (this.exploded) return;
+
+    if (!this.vibrating) {
+      this.trail.push({ x: this.x, y: this.y });
+      if (this.trail.length > 15) this.trail.shift(); 
+      this.y -= this.speed;
+      this.speed *= 0.99;
+
+      if (this.y <= this.targetY) {
+        if (this.isDud) {
+            this.fallBack();
+        } else {
+            this.vibrating = true;
+        }
+      }
+    } else {
+      if (this.vibrationCounter < this.vibrationDuration) {
+        this.x += Math.sin(this.vibrationCounter * 3) * 0.8; 
+        this.vibrationCounter++;
+      } else {
+        this.explode();
+      }
+    }
+  }
+
+  draw() {
+    if (this.exploded) return;
+    
+    ctx.fillStyle = this.isDud ? '#ffdf40' : '#fff'; // Different color for a dud
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, 1.5, 0, Math.PI * 2, false);
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.strokeStyle = this.color;
+    ctx.lineWidth = 1;
+    for (let i = this.trail.length - 1; i > 0; i--) {
+      const p = this.trail[i];
+      const nextP = this.trail[i - 1];
+      ctx.globalAlpha = (i / this.trail.length) * 0.6;
+      ctx.moveTo(p.x, p.y);
+      ctx.lineTo(nextP.x, nextP.y);
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+  }
+  
+  // New method for dud fireworks
+  fallBack() {
+    this.exploded = true;
+    // Create a small stream of particles falling back with heavy gravity
+    const particleCount = Math.floor(random(20, 30)); 
+    for (let i = 0; i < particleCount; i++) {
+        // Set dud to true for heavy/realistic falling
+        particles.push(new Particle(this.x, this.y, '#ffdf40', random(0.2, 0.8), random(0.8, 1.5), false, true)); 
+    }
+  }
+
+  explode() {
+    this.exploded = true;
+    const burstColor = this.color;
+    const particleCount = Math.floor(random(60, 100)); 
+
+    for (let i = 0; i < particleCount; i++) {
+      const particleColor = Math.random() < 0.6 ? burstColor : colors[Math.floor(random(0, colors.length))];
+      particles.push(new Particle(this.x, this.y, particleColor));
+    }
+  }
+}
+
+// --- Corner Firework Class (New) ---
+class CornerFirework extends Firework {
+    constructor(isLeftCorner) {
+        // Determine the launch x-coordinate: far left or far right
+        const x = isLeftCorner ? random(0, cw * 0.1) : random(cw * 0.9, cw);
+        super(x, ch);
+        
+        // Target explosion closer to the sides
+        this.targetY = random(ch * 0.3, ch * 0.5); 
+        this.speed = random(6, 11);
+    }
+    
+    update() {
+        if (this.exploded) return;
+
+        if (!this.vibrating) {
+            this.trail.push({ x: this.x, y: this.y });
+            if (this.trail.length > 15) this.trail.shift(); 
+            this.y -= this.speed;
+            this.speed *= 0.99;
+            
+            // Slightly nudge the firework towards the center for a more realistic arc
+            if (this.x < cw / 2) {
+                this.x += 0.5; // Left corner moves right
+            } else {
+                this.x -= 0.5; // Right corner moves left
+            }
+
+            if (this.y <= this.targetY) {
+                if (this.isDud) {
+                    this.fallBack();
+                } else {
+                    this.vibrating = true;
+                }
+            }
+        } else {
+            // Apply the same pre-explosion vibration
+            if (this.vibrationCounter < this.vibrationDuration) {
+                this.x += Math.sin(this.vibrationCounter * 3) * 0.8; 
+                this.vibrationCounter++;
+            } else {
+                this.explode();
+            }
+        }
+    }
+}
+
+
+// --- Nuclear Firework Class (Modified for new constructor) ---
+class NuclearFirework extends Firework {
+  constructor() {
+    // Launch from center of the smaller canvas
+    const x = cw / 2;
+    const y = ch;
+    super(x, y);
+    
+    this.targetY = random(ch * 0.1, ch * 0.25); // Highest explosion
+    this.speed = random(4, 7); 
+    this.color = '#ff4500';
+    this.vibrationDuration = 20;
+    this.isDud = false; // Nuclear fireworks never fail!
+  }
+
+  update() {
+    if (this.exploded) return;
+
+    if (!this.vibrating) {
+      this.y -= this.speed;
+      this.speed *= 0.998;
+      
+      if (Math.random() < 0.5) {
+          // Special particle for nuclear trail (heavy = true)
+          particles.push(new Particle(this.x, this.y, '#ffd700', 1, 2, true));
+      }
+
+      this.trail.push({ x: this.x, y: this.y });
+      if (this.trail.length > 50) this.trail.shift();
+
+      if (this.y <= this.targetY) {
+        this.vibrating = true;
+      }
+    } else {
+      if (this.vibrationCounter < this.vibrationDuration) {
+        this.x += Math.sin(this.vibrationCounter * 2) * 2.5; 
+        this.vibrationCounter++;
+      } else {
+        this.explode();
+      }
+    }
+  }
+
+  draw() {
+    if (this.exploded) return;
+    
+    ctx.fillStyle = '#fff';
+    ctx.shadowBlur = 15;
+    ctx.shadowColor = this.color;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, 4, 0, Math.PI * 2, false);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    ctx.beginPath();
+    ctx.strokeStyle = this.color;
+    ctx.lineWidth = 5;
+    for (let i = this.trail.length - 1; i > 0; i--) {
+      const p = this.trail[i];
+      const nextP = this.trail[i - 1];
+      ctx.globalAlpha = (i / this.trail.length) * 1.0;
+      ctx.moveTo(p.x, p.y);
+      ctx.lineTo(nextP.x, nextP.y);
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  explode() {
+    this.exploded = true;
+    const particleCount = Math.floor(random(400, 600));
+
+    for (let i = 0; i < particleCount; i++) {
+      let particleColor;
+      if (Math.random() < 0.2) {
+        particleColor = '#fffaaa';
+      } else if (Math.random() < 0.6) {
+        particleColor = this.color;
+      } else {
+        particleColor = colors[Math.floor(random(0, colors.length))];
+      }
+      
+      particles.push(new Particle(this.x, this.y, particleColor, random(1.5, 3.5), random(1.5, 3), true)); 
+    }
+  }
+}
+
+let fireworks = [];
+let particles = [];
+
+function animate() {
+  // Clear the canvas with a very subtle trail
+  ctx.globalCompositeOperation = "destination-out";
+  ctx.fillStyle = "rgba(0, 0, 0, 0.08)"; 
+  ctx.fillRect(0, 0, cw, ch);
+  ctx.globalCompositeOperation = "lighter"; // Essential for the glow
+
+  // --- Update and Draw ---
+  for (let i = fireworks.length - 1; i >= 0; i--) {
+    const firework = fireworks[i];
+    firework.update();
+    firework.draw();
+    // Remove if exploded or if a dud falls off the bottom of the screen
+    if (firework.exploded || (firework.isDud && firework.y > ch)) {
+      fireworks.splice(i, 1);
+    }
+  }
+
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const particle = particles[i];
+    particle.update();
+    particle.draw();
+    if (particle.alpha <= 0) {
+      particles.splice(i, 1);
+    }
+  }
+
+  // Launch logic (Now combines center and corner launches)
+  if (Math.random() < 0.06) { 
+      const type = random(0, 100);
+      if (type < 70) {
+          // 70% chance of a center-ish launch
+          const x = cw / 2 + random(-cw * 0.1, cw * 0.1); 
+          fireworks.push(new Firework(x, ch));
+      } else if (type < 85) {
+          // 15% chance of a left-corner launch
+          fireworks.push(new CornerFirework(true));
+      } else {
+          // 15% chance of a right-corner launch
+          fireworks.push(new CornerFirework(false));
+      }
+  }
+
+  requestAnimationFrame(animate);
+}
+
+// --- Nuclear Launch Timer (Unchanged) ---
+setInterval(() => {
+  fireworks.push(new NuclearFirework());
+}, 8000); // Launches a Nuclear Firework every 8 seconds
+
+animate();
+
+window.addEventListener("resize", () => {
+    // Recalculate dimensions on resize to keep fireworks centered on the popup
+    cw = canvas.clientWidth;
+    ch = canvas.clientHeight;
+    canvas.width = cw;
+    canvas.height = ch;
+});
+</script>
 </body>
 </html>
