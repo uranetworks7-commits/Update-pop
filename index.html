@@ -3,68 +3,67 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>URA-Battle PopUp with Fireworks</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <title>Happy Diwali - PopUp with Fireworks & Music</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&family=Great+Vibes&family=Playfair+Display:wght=700&display=swap" rel="stylesheet">
+  
   <style>
+    /* ------------------- Global/Body Styles ------------------- */
     body {
       margin: 0;
       height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: radial-gradient(circle at center, #0a0a2a, #000);
+      /* Darker, richer background with a deep gold radial glow */
+      background: radial-gradient(circle at center, #1a0800 0%, #000000 100%);
       font-family: 'Poppins', sans-serif;
       overflow: hidden;
+      cursor: pointer; /* Hint that interaction is needed */
     }
 
     /* Container for both popup and its centered, overlayed canvas */
     .popup-container {
-        position: relative; /* Essential for positioning the canvas */
+        position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
         width: 100%;
         height: 100%;
     }
-
+    
+    /* ------------------- Popup Styling (The Card) ------------------- */
     .popup {
       position: relative;
-      padding: 45px 65px;
+      padding: 50px 70px;
       text-align: center;
       border-radius: 25px;
       color: #fff;
-      max-width: 520px;
-      background: linear-gradient(135deg, rgba(10,10,50,0.95), rgba(0,0,0,0.95));
+      max-width: 550px;
+      /* Richer, warm gradient for Diwali */
+      background: linear-gradient(135deg, rgba(20, 5, 0, 0.95), rgba(0, 0, 0, 0.95));
       border: 3px solid transparent;
       background-clip: padding-box;
-      animation: pop 0.6s ease-out forwards, floaty 3s infinite ease-in-out;
+      /* Keep the original animations */
+      animation: pop 0.6s ease-out forwards;
+      /* Warmer, Gold Shadow */
       box-shadow: 
-        0 0 25px #00f7ff,
-        0 0 50px #00f7ff,
-        inset 0 0 20px rgba(0,255,255,0.2);
-      z-index: 10; /* Ensure popup content is above its own canvas layer if needed */
+        0 0 30px rgba(255, 215, 0, 0.7), /* Soft gold glow */
+        0 0 60px rgba(255, 140, 0, 0.5), /* Amber outer glow */
+        inset 0 0 25px rgba(255, 223, 0, 0.3); /* Inner gold highlight */
+      z-index: 10;
+      /* Added a subtle texture overlay */
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><defs><pattern id="p" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23p)"/></svg>');
     }
 
-    /* Fireworks Canvas Styling - Center it over the popup */
-    #fireworks-overlay {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 600px; /* Define a fixed area for the explosion */
-      height: 500px; /* Define a fixed area for the explosion */
-      pointer-events: none; /* Allows clicks to pass through to the body */
-      z-index: 20; /* Ensure canvas is above the popup's visible content */
-    }
-    
-    /* Shimmer border effect */
+    /* Shimmer border effect (Changed colors to Gold/Red/Saffron) */
     .popup::before {
       content: "";
       position: absolute;
       inset: -3px;
       border-radius: 25px;
       padding: 3px;
-      background: linear-gradient(130deg, #00f7ff, #ff00ea, #ffdf40, #00f7ff);
+      /* Diwali colors: Gold, Saffron, Deep Red */
+      background: linear-gradient(130deg, #ffdf40, #ff4500, #fffaaa, #ffdf40);
       background-size: 300% 300%;
       animation: borderGlow 6s linear infinite;
       -webkit-mask: 
@@ -75,66 +74,121 @@
       pointer-events: none;
     }
 
+    /* ------------------- Title Styling ------------------- */
     .popup h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 3rem;
+      font-family: 'Playfair Display', serif; /* Elegant and bold font */
+      font-size: 3.8rem; /* Larger font size */
       margin: 0;
-      background: linear-gradient(45deg, #ffdf40, #ff6f00, #ff0055, #ff00ea);
-      background-size: 200% 200%;
+      /* Rich, multi-color gradient for the text */
+      background: linear-gradient(45deg, #ffd700, #ff8c00, #ff4500, #fffaaa, #ffd700);
+      background-size: 300% 300%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 25px rgba(255, 223, 64, 0.9), 0 0 40px rgba(255, 0, 234, 0.8);
-      animation: bounce 1.2s infinite, gradientFlow 4s linear infinite;
+      /* Stronger gold/saffron text shadow */
+      text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 35px rgba(255, 69, 0, 0.6);
+      /* Use a smoother text animation */
+      animation: gradientFlow 4s linear infinite;
     }
 
+    /* ------------------- Subtitle/Paragraph Styling ------------------- */
     .popup p {
-      font-size: 1.3rem;
-      margin-top: 20px;
-      line-height: 1.6;
+      font-family: 'Great Vibes', cursive; /* Beautiful script font for the message */
+      font-size: 2.5rem;
+      margin-top: 25px;
+      line-height: 1.5;
       font-weight: 500;
-      color: #d7faff;
-      text-shadow: 0 0 14px #00e6ff;
+      color: #fffaaa; /* Light gold color */
+      text-shadow: 0 0 16px #ffdf40; /* Yellow/Gold glow */
       animation: fadeUp 1s ease-out;
+      margin-bottom: 30px; /* Space for the new button */
     }
 
-    /* Pop Animation */
+    /* ------------------- Confetti Container Styling ------------------- */
+    #confetti-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none; /* Allows clicks to pass through */
+        z-index: 5;
+        overflow: hidden;
+    }
+
+    /* Confetti Particle Styles (Initial State) */
+    .confetto {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: #ffdf40; /* Default Diwali Gold */
+        opacity: 0;
+        transform: translateZ(0); /* For smooth GPU rendering */
+        border-radius: 2px;
+    }
+
+    /* ------------------- Button Styling ------------------- */
+    .celebrate-btn {
+        padding: 12px 35px;
+        border: none;
+        border-radius: 50px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        font-size: 1.2rem;
+        cursor: pointer;
+        /* Gold/Saffron Gradient */
+        background: linear-gradient(90deg, #ffd700, #ff8c00, #ff4500);
+        color: #000;
+        box-shadow: 0 5px 20px rgba(255, 140, 0, 0.5);
+        transition: all 0.2s ease-in-out;
+        z-index: 15;
+    }
+
+    .celebrate-btn:hover {
+        background: linear-gradient(90deg, #fff200, #ffb000, #ff6a00);
+        transform: translateY(-2px) scale(1.03);
+        box-shadow: 0 8px 25px rgba(255, 140, 0, 0.7);
+    }
+    
+    .celebrate-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
+    }
+
+    /* ------------------- Canvas & Audio Styles ------------------- */
+    #fireworks-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 650px; /* Slightly larger area for the explosion */
+      height: 550px; 
+      pointer-events: none;
+      z-index: 20;
+    }
+    
+    #bg-music {
+        display: none; /* Hide the audio player */
+    }
+
+    /* ------------------- Keyframe Animations ------------------- */
     @keyframes pop {
       0% { transform: scale(0.2); opacity: 0; }
       80% { transform: scale(1.1); opacity: 1; }
       100% { transform: scale(1); }
     }
 
-    /* Floating Effect - Removed transform from floaty to avoid conflict with `translate` on the canvas */
-    @keyframes floaty {
-      0%, 100% { } 
-      50% { }
-    }
-    
-    .popup-container .popup {
-        animation: pop 0.6s ease-out forwards; /* Only keep pop, the canvas will float */
-    }
-
-    /* Glow border animation */
     @keyframes borderGlow {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
 
-    /* Gradient Flow */
     @keyframes gradientFlow {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
 
-    /* Bounce Title */
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
-    }
-
-    /* Text fade-up */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -142,16 +196,110 @@
   </style>
 </head>
 <body>
+  <audio id="bg-music" loop>
+    <source src="https://files.catbox.moe/acbqxk.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
+
   <div class="popup-container">
     <canvas id="fireworks-overlay"></canvas>
-    
-    <div class="popup" id="popupBox">
-      <h1>𝚄𝚁𝙰 Create Carnival Is Live</h1>
-      <p>URA Create Carnival Is Now Started, Create Your Project Now, Submission Date:-21/10/25</p>
+    <div id="confetti-container"></div> <div class="popup" id="popupBox">
+      <h1>Happy Diwali</h1>
+      <p>May the light of the lamps brighten your life and bring you joy, peace, and prosperity.</p>
+      <button class="celebrate-btn" id="celebrate-button">Celebrate! ✨</button>
     </div>
   </div>
 
 <script>
+// --- Audio Playback Control ---
+const bgMusic = document.getElementById('bg-music');
+const body = document.body;
+const celebrateButton = document.getElementById('celebrate-button');
+
+// Function to start music playback
+function startMusic() {
+    // Only attempt to play if it's currently paused or hasn't started
+    if (bgMusic.paused) {
+        bgMusic.volume = 0.6; // Set a slightly lower volume
+        bgMusic.play().catch(error => {
+            console.log("Music auto-play failed. User must interact.", error);
+        });
+    }
+    // Remove the body event listener after the first interaction
+    body.removeEventListener('click', startMusic);
+}
+
+// Attach event listener to the body/document to start music on first click/interaction
+body.addEventListener('click', startMusic);
+// Also try to start it once the popup appears (though it might fail on modern browsers)
+document.addEventListener('DOMContentLoaded', startMusic);
+
+
+// --- NEW CONFETTI SCRIPT ---
+const confettiContainer = document.getElementById('confetti-container');
+const confettiColors = ['#ffdf40', '#ff4500', '#ff8c00', '#fffaaa', '#ffffff'];
+
+function createConfetto() {
+    const c = document.createElement('div');
+    c.classList.add('confetto');
+    c.style.backgroundColor = confettiColors[Math.floor(random(0, confettiColors.length))];
+    c.style.left = random(0, 100) + 'vw';
+    c.style.width = random(8, 14) + 'px';
+    c.style.height = random(8, 14) + 'px';
+    c.style.opacity = 1;
+    confettiContainer.appendChild(c);
+
+    // Confetti Animation (Fall, Rotate, Fade)
+    const duration = random(3, 7);
+    const rotation = random(360, 720);
+    const delay = random(0, 0.5);
+
+    c.animate([
+        { transform: `translateY(-100px) rotate(0deg)`, opacity: 0.8 },
+        { transform: `translateY(${window.innerHeight + 10}px) rotate(${rotation}deg)`, opacity: 0 }
+    ], {
+        duration: duration * 1000,
+        easing: 'ease-in',
+        delay: delay * 1000,
+        fill: 'forwards'
+    }).onfinish = () => {
+        c.remove();
+    };
+}
+
+function launchConfettiBurst() {
+    const numConfetti = 80;
+    for (let i = 0; i < numConfetti; i++) {
+        createConfetto();
+    }
+}
+
+
+// --- Button Click Handler ---
+celebrateButton.addEventListener('click', () => {
+    // 1. Ensure Music is Playing
+    startMusic(); 
+    
+    // 2. Launch a Confetti Burst
+    launchConfettiBurst();
+
+    // 3. Trigger an Intense Firework Burst (Multiple Nuclear Fireworks)
+    fireworks.push(new NuclearFirework());
+    setTimeout(() => fireworks.push(new NuclearFirework()), 500);
+    setTimeout(() => fireworks.push(new NuclearFirework()), 1000);
+    
+    // Optional: Visually disable the button for a moment after a burst
+    celebrateButton.disabled = true;
+    celebrateButton.textContent = 'Celebrating... 🎉';
+    setTimeout(() => {
+        celebrateButton.disabled = false;
+        celebrateButton.textContent = 'Celebrate! ✨';
+    }, 2000);
+});
+// ----------------------------
+
+
+// --- Fireworks Script (Slightly Modified for Better Diwali Colors) ---
 const canvas = document.getElementById("fireworks-overlay");
 const ctx = canvas.getContext("2d");
 
@@ -161,13 +309,14 @@ let ch = canvas.clientHeight;
 canvas.width = cw;
 canvas.height = ch;
 
-const colors = ["#ff5722", "#2196f3", "#4caf50", "#ffc107", "#ffffff", "#e91e63", "#673ab7"];
+// Diwali Color Palette: Gold, Saffron, Red, Deep Blue, White/Sparkle
+const colors = ["#ffd700", "#ff8c00", "#ff4500", "#00bfff", "#ffffff", "#e91e63", "#fffaaa"];
 
 function random(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-// --- Particle Class (Unchanged) ---
+// --- Particle Class (Unchanged, relies on the `colors` array) ---
 class Particle {
   constructor(x, y, color, speedScale = 1, sizeScale = 1, heavy = false, dud = false) {
     this.x = x;
@@ -176,7 +325,7 @@ class Particle {
     this.size = random(0.5, 2.5) * sizeScale;
     this.angle = random(0, Math.PI * 2);
     this.speed = random(0.5, 8) * speedScale; 
-    this.gravity = heavy ? 0.2 : (dud ? 0.35 : 0.08); // Heavy gravity for duds
+    this.gravity = heavy ? 0.2 : (dud ? 0.35 : 0.08); 
     this.alpha = 1;
     this.decay = random(0.02, 0.05); 
     this.dud = dud;
@@ -184,14 +333,13 @@ class Particle {
   update() {
     this.x += Math.cos(this.angle) * this.speed;
     this.y += Math.sin(this.angle) * this.speed + this.gravity;
-    // Duds lose speed faster and decay slower to burn longer
     this.speed *= (this.dud ? 0.96 : 0.95); 
     this.alpha -= (this.dud ? 0.015 : this.decay);
   }
   draw() {
     ctx.globalAlpha = this.alpha;
     ctx.fillStyle = this.color;
-    // Dud particles can be slightly larger and have a spark/ember color
+    // Enhanced dud/sparkle effect with Diwali colors
     if (this.dud) {
         ctx.fillStyle = random(0, 1) < 0.8 ? '#ffdf40' : '#ff4500';
         ctx.shadowBlur = 4;
@@ -207,20 +355,18 @@ class Particle {
   }
 }
 
-// --- Base Firework Class (Modified) ---
+// --- Base Firework Class ---
 class Firework {
   constructor(x, y) {
-    // Launch position is now passed in
     this.x = x; 
     this.y = y;
     this.initialY = ch;
-    // Target explosion near the center/top center of the canvas
     this.targetY = random(ch * 0.2, ch * 0.4); 
     this.speed = random(5, 10); 
     this.color = colors[Math.floor(random(0, colors.length - 2))]; 
     this.trail = [];
     this.exploded = false;
-    this.isDud = Math.random() < 0.15; // 15% chance of being a dud
+    this.isDud = Math.random() < 0.15; 
     this.vibrating = false;
     this.vibrationCounter = 0;
     this.vibrationDuration = 10;
@@ -255,7 +401,7 @@ class Firework {
   draw() {
     if (this.exploded) return;
     
-    ctx.fillStyle = this.isDud ? '#ffdf40' : '#fff'; // Different color for a dud
+    ctx.fillStyle = this.isDud ? '#ffdf40' : '#fff'; 
     ctx.beginPath();
     ctx.arc(this.x, this.y, 1.5, 0, Math.PI * 2, false);
     ctx.fill();
@@ -274,13 +420,10 @@ class Firework {
     ctx.globalAlpha = 1;
   }
   
-  // New method for dud fireworks
   fallBack() {
     this.exploded = true;
-    // Create a small stream of particles falling back with heavy gravity
     const particleCount = Math.floor(random(20, 30)); 
     for (let i = 0; i < particleCount; i++) {
-        // Set dud to true for heavy/realistic falling
         particles.push(new Particle(this.x, this.y, '#ffdf40', random(0.2, 0.8), random(0.8, 1.5), false, true)); 
     }
   }
@@ -297,14 +440,12 @@ class Firework {
   }
 }
 
-// --- Corner Firework Class (New) ---
+// --- Corner Firework Class ---
 class CornerFirework extends Firework {
     constructor(isLeftCorner) {
-        // Determine the launch x-coordinate: far left or far right
         const x = isLeftCorner ? random(0, cw * 0.1) : random(cw * 0.9, cw);
         super(x, ch);
         
-        // Target explosion closer to the sides
         this.targetY = random(ch * 0.3, ch * 0.5); 
         this.speed = random(6, 11);
     }
@@ -318,11 +459,10 @@ class CornerFirework extends Firework {
             this.y -= this.speed;
             this.speed *= 0.99;
             
-            // Slightly nudge the firework towards the center for a more realistic arc
             if (this.x < cw / 2) {
-                this.x += 0.5; // Left corner moves right
+                this.x += 0.5; 
             } else {
-                this.x -= 0.5; // Right corner moves left
+                this.x -= 0.5; 
             }
 
             if (this.y <= this.targetY) {
@@ -333,7 +473,6 @@ class CornerFirework extends Firework {
                 }
             }
         } else {
-            // Apply the same pre-explosion vibration
             if (this.vibrationCounter < this.vibrationDuration) {
                 this.x += Math.sin(this.vibrationCounter * 3) * 0.8; 
                 this.vibrationCounter++;
@@ -345,19 +484,18 @@ class CornerFirework extends Firework {
 }
 
 
-// --- Nuclear Firework Class (Modified for new constructor) ---
+// --- Nuclear Firework Class ---
 class NuclearFirework extends Firework {
   constructor() {
-    // Launch from center of the smaller canvas
     const x = cw / 2;
     const y = ch;
     super(x, y);
     
-    this.targetY = random(ch * 0.1, ch * 0.25); // Highest explosion
+    this.targetY = random(ch * 0.1, ch * 0.25); 
     this.speed = random(4, 7); 
     this.color = '#ff4500';
     this.vibrationDuration = 20;
-    this.isDud = false; // Nuclear fireworks never fail!
+    this.isDud = false;
   }
 
   update() {
@@ -368,7 +506,6 @@ class NuclearFirework extends Firework {
       this.speed *= 0.998;
       
       if (Math.random() < 0.5) {
-          // Special particle for nuclear trail (heavy = true)
           particles.push(new Particle(this.x, this.y, '#ffd700', 1, 2, true));
       }
 
@@ -436,18 +573,15 @@ let fireworks = [];
 let particles = [];
 
 function animate() {
-  // Clear the canvas with a very subtle trail
   ctx.globalCompositeOperation = "destination-out";
   ctx.fillStyle = "rgba(0, 0, 0, 0.08)"; 
   ctx.fillRect(0, 0, cw, ch);
-  ctx.globalCompositeOperation = "lighter"; // Essential for the glow
+  ctx.globalCompositeOperation = "lighter";
 
-  // --- Update and Draw ---
   for (let i = fireworks.length - 1; i >= 0; i--) {
     const firework = fireworks[i];
     firework.update();
     firework.draw();
-    // Remove if exploded or if a dud falls off the bottom of the screen
     if (firework.exploded || (firework.isDud && firework.y > ch)) {
       fireworks.splice(i, 1);
     }
@@ -462,18 +596,14 @@ function animate() {
     }
   }
 
-  // Launch logic (Now combines center and corner launches)
   if (Math.random() < 0.06) { 
       const type = random(0, 100);
       if (type < 70) {
-          // 70% chance of a center-ish launch
           const x = cw / 2 + random(-cw * 0.1, cw * 0.1); 
           fireworks.push(new Firework(x, ch));
       } else if (type < 85) {
-          // 15% chance of a left-corner launch
           fireworks.push(new CornerFirework(true));
       } else {
-          // 15% chance of a right-corner launch
           fireworks.push(new CornerFirework(false));
       }
   }
@@ -481,15 +611,13 @@ function animate() {
   requestAnimationFrame(animate);
 }
 
-// --- Nuclear Launch Timer (Unchanged) ---
 setInterval(() => {
   fireworks.push(new NuclearFirework());
-}, 8000); // Launches a Nuclear Firework every 8 seconds
+}, 8000);
 
 animate();
 
 window.addEventListener("resize", () => {
-    // Recalculate dimensions on resize to keep fireworks centered on the popup
     cw = canvas.clientWidth;
     ch = canvas.clientHeight;
     canvas.width = cw;
