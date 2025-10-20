@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Happy Diwali - PopUp with Fireworks & Music</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&family=Great+Vibes&family=Playfair+Display:wght=700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&family=Great+Vibes&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   
   <style>
     /* ------------------- Global/Body Styles ------------------- */
@@ -34,11 +34,13 @@
     /* ------------------- Popup Styling (The Card) ------------------- */
     .popup {
       position: relative;
-      padding: 50px 70px;
+      /* MODIFIED: Reduced padding for a smaller panel */
+      padding: 30px 45px;
       text-align: center;
       border-radius: 25px;
       color: #fff;
-      max-width: 550px;
+      /* MODIFIED: Reduced max-width for a smaller panel */
+      max-width: 400px;
       /* Richer, warm gradient for Diwali */
       background: linear-gradient(135deg, rgba(20, 5, 0, 0.95), rgba(0, 0, 0, 0.95));
       border: 3px solid transparent;
@@ -77,7 +79,8 @@
     /* ------------------- Title Styling ------------------- */
     .popup h1 {
       font-family: 'Playfair Display', serif; /* Elegant and bold font */
-      font-size: 3.8rem; /* Larger font size */
+      /* MODIFIED: Reduced font size */
+      font-size: 2.8rem; 
       margin: 0;
       /* Rich, multi-color gradient for the text */
       background: linear-gradient(45deg, #ffd700, #ff8c00, #ff4500, #fffaaa, #ffd700);
@@ -93,14 +96,16 @@
     /* ------------------- Subtitle/Paragraph Styling ------------------- */
     .popup p {
       font-family: 'Great Vibes', cursive; /* Beautiful script font for the message */
-      font-size: 2.5rem;
-      margin-top: 25px;
-      line-height: 1.5;
+      /* MODIFIED: Reduced font size */
+      font-size: 1.8rem;
+      /* MODIFIED: Reduced margin-top and margin-bottom */
+      margin-top: 15px;
+      line-height: 1.4;
       font-weight: 500;
       color: #fffaaa; /* Light gold color */
       text-shadow: 0 0 16px #ffdf40; /* Yellow/Gold glow */
       animation: fadeUp 1s ease-out;
-      margin-bottom: 30px; /* Space for the new button */
+      margin-bottom: 20px; /* Space for the new button */
     }
 
     /* ------------------- Confetti Container Styling ------------------- */
@@ -128,12 +133,14 @@
 
     /* ------------------- Button Styling ------------------- */
     .celebrate-btn {
-        padding: 12px 35px;
+        /* MODIFIED: Reduced padding for a smaller button */
+        padding: 10px 30px;
         border: none;
         border-radius: 50px;
         font-family: 'Poppins', sans-serif;
         font-weight: 700;
-        font-size: 1.2rem;
+        /* MODIFIED: Reduced font size */
+        font-size: 1rem;
         cursor: pointer;
         /* Gold/Saffron Gradient */
         background: linear-gradient(90deg, #ffd700, #ff8c00, #ff4500);
@@ -160,8 +167,9 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 650px; /* Slightly larger area for the explosion */
-      height: 550px; 
+      /* MODIFIED: Reduced canvas size to frame the smaller popup */
+      width: 500px; 
+      height: 450px; 
       pointer-events: none;
       z-index: 20;
     }
