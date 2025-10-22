@@ -18,7 +18,7 @@
       background: radial-gradient(circle at center, #000a12 0%, #000000 100%);
       font-family: 'Poppins', sans-serif;
       overflow: hidden;
-      cursor: default; /* Remove the festive pointer */
+      cursor: default;
     }
 
     /* Container for the popup */
@@ -34,11 +34,13 @@
     /* ------------------- Popup Styling (The Card) ------------------- */
     .popup {
       position: relative;
-      padding: 40px 50px; /* Slightly larger for a professional look */
+      /* REDUCED SIZE: Padding from 40px 50px to 20px 25px */
+      padding: 20px 25px; 
       text-align: center;
-      border-radius: 18px; /* Sharper, modern corners */
-      color: #e0f7fa; /* Light cyan text */
-      max-width: 450px;
+      border-radius: 12px; /* Sharper corners for a smaller box */
+      color: #e0f7fa;
+      /* REDUCED SIZE: Max-width from 450px to 250px (approx 55% reduction in width) */
+      max-width: 250px; 
       /* Dark, deep blue/black gradient for a tech feel */
       background: linear-gradient(135deg, rgba(5, 10, 20, 0.98), rgba(0, 0, 0, 0.95));
       border: 2px solid transparent;
@@ -46,22 +48,21 @@
       animation: pop 0.6s ease-out forwards;
       /* Cool, Electric Blue/Cyan Shadow */
       box-shadow: 
-        0 0 20px rgba(0, 255, 255, 0.4), /* Soft cyan glow */
-        0 0 40px rgba(0, 150, 255, 0.2), /* Blue outer glow */
-        inset 0 0 15px rgba(0, 255, 255, 0.1); /* Inner cyan highlight */
+        0 0 15px rgba(0, 255, 255, 0.4),
+        0 0 30px rgba(0, 150, 255, 0.2), 
+        inset 0 0 10px rgba(0, 255, 255, 0.1);
       z-index: 10;
       /* Subtle dark circuit board texture */
       background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><defs><pattern id="p" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 0 0 L 10 10 M 10 0 L 0 10" stroke="rgba(0,100,100,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23p)"/></svg>');
     }
 
-    /* Shimmer border effect (Changed to Electric Blue/Purple) */
+    /* Shimmer border effect */
     .popup::before {
       content: "";
       position: absolute;
       inset: -2px;
-      border-radius: 18px;
+      border-radius: 12px; /* Matches popup border-radius */
       padding: 2px;
-      /* Tech colors: Electric Cyan, Deep Blue, Purple */
       background: linear-gradient(130deg, #00ffff, #0077ff, #7700ff, #00ffff);
       background-size: 300% 300%;
       animation: borderGlow 6s linear infinite;
@@ -75,63 +76,66 @@
 
     /* ------------------- Title Styling ------------------- */
     .popup h1 {
-      font-family: 'Orbitron', sans-serif; /* Aggressive, futuristic font */
-      font-size: 2.2rem; 
+      font-family: 'Orbitron', sans-serif;
+      /* REDUCED SIZE: Font-size from 2.2rem to 1.4rem */
+      font-size: 1.4rem; 
       margin: 0;
-      /* Electric Blue/Cyan Gradient */
       background: linear-gradient(45deg, #00ffff, #00c0ff, #0044ff, #00ffff);
       background-size: 300% 300%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      /* Electric text shadow */
-      text-shadow: 0 0 15px rgba(0, 255, 255, 0.8), 0 0 25px rgba(0, 150, 255, 0.6);
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.8), 0 0 15px rgba(0, 150, 255, 0.6); /* Reduced shadow spread */
       animation: gradientFlow 4s linear infinite;
       text-transform: uppercase;
-      margin-bottom: 10px;
+      margin-bottom: 5px; /* Reduced margin */
     }
     
     .popup h1 strong {
         font-weight: 700;
-        color: #ff00ff; /* A pop of magenta/purple for the "Beast" part */
-        text-shadow: 0 0 10px rgba(255, 0, 255, 0.8);
+        color: #ff00ff;
+        text-shadow: 0 0 8px rgba(255, 0, 255, 0.8);
     }
 
     /* ------------------- Product Image Icon ------------------- */
     .product-icon {
-        width: 100px;
-        height: 100px;
-        margin-bottom: 20px;
+        /* REDUCED SIZE: Width/Height from 100px to 50px */
+        width: 50px; 
+        height: 50px;
+        margin-bottom: 10px; /* Reduced margin */
         animation: iconSpin 6s linear infinite;
-        filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.6));
+        filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.6));
     }
 
 
     /* ------------------- Subtitle/Paragraph Styling ------------------- */
     .popup p {
       font-family: 'Poppins', sans-serif; 
-      font-size: 1.1rem;
-      margin-top: 10px;
-      line-height: 1.4;
+      /* REDUCED SIZE: Font-size from 1.1rem to 0.85rem */
+      font-size: 0.85rem; 
+      margin-top: 5px; /* Reduced margin */
+      line-height: 1.3; /* Adjusted line-height for smaller text */
       font-weight: 400;
-      color: #b3e5fc; /* Soft blue color */
-      text-shadow: 0 0 8px rgba(0, 191, 255, 0.4); 
+      color: #b3e5fc;
+      text-shadow: 0 0 6px rgba(0, 191, 255, 0.4); 
       animation: fadeUp 1s ease-out;
-      margin-bottom: 30px; 
+      margin-bottom: 10px; /* Reduced margin */
     }
     
     /* ------------------- Button Styling ------------------- */
     .action-btn {
-        padding: 12px 40px;
+        /* REDUCED SIZE: Padding from 12px 40px to 8px 25px */
+        padding: 8px 25px; 
         border: none;
         border-radius: 50px;
         font-family: 'Poppins', sans-serif;
         font-weight: 700;
-        font-size: 1.1rem;
+        /* REDUCED SIZE: Font-size from 1.1rem to 0.9rem */
+        font-size: 0.9rem; 
         cursor: pointer;
         /* Aggressive Red/Black Gradient */
         background: linear-gradient(90deg, #ff0000, #a00000, #440000);
         color: #fff;
-        box-shadow: 0 5px 25px rgba(255, 0, 0, 0.6);
+        box-shadow: 0 4px 15px rgba(255, 0, 0, 0.6); /* Reduced shadow spread */
         transition: all 0.2s ease-in-out;
         z-index: 15;
         text-transform: uppercase;
@@ -139,22 +143,21 @@
 
     .action-btn:hover {
         background: linear-gradient(90deg, #ff4444, #cc0000, #660000);
-        transform: translateY(-3px) scale(1.03);
-        box-shadow: 0 10px 30px rgba(255, 0, 0, 0.8);
+        transform: translateY(-2px) scale(1.03); /* Reduced movement */
+        box-shadow: 0 6px 20px rgba(255, 0, 0, 0.8);
     }
     
     .action-btn:active {
         transform: translateY(0);
-        box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+        box-shadow: 0 3px 10px rgba(255, 0, 0, 0.4);
     }
 
     /* ------------------- Media and Animation Removal/Replacement ------------------- */
-    /* Remove all former festive elements */
     #fireworks-overlay, #confetti-container, #bg-music {
         display: none !important;
     }
     
-    /* ------------------- Keyframe Animations ------------------- */
+    /* ------------------- Keyframe Animations (No changes needed here) ------------------- */
     @keyframes pop {
       0% { transform: scale(0.2); opacity: 0; }
       80% { transform: scale(1.1); opacity: 1; }
@@ -191,7 +194,7 @@
       <img src="https://files.catbox.moe/8p7ygo.png" alt="URA SV-10 Pro Icon" class="product-icon">
       
       <h1>
-        Introducing SV-10 Pro
+      𝙸𝚗𝚝𝚛𝚘𝚍𝚞𝚌𝚒𝚗𝚐 𝚄𝚁𝙰 𝚂𝚅-10 𝙿𝚛𝚘
       </h1>
       <p>
        •𝚃𝚑𝚎 𝙱𝚎𝚊𝚜𝚝 𝚘𝚏 𝚂𝚎𝚌𝚞𝚛𝚒𝚝𝚢 𝚂𝚢𝚜𝚝𝚎𝚖𝚜
@@ -207,8 +210,6 @@
   </div>
 
 <script>
-// The original script content for fireworks, music, and confetti has been REMOVED.
-
 // Get the button element
 const actionButton = document.getElementById('action-button');
 
@@ -217,16 +218,13 @@ actionButton.addEventListener('click', () => {
     console.log("URA SV-10 Pro - Unleash The Beast! button clicked.");
     
     // Simple visual feedback on click
-    actionButton.textContent = ' ~𝓟𝓡 𝓣𝓮𝓪𝓶 ♥️';
+    actionButton.textContent = ' ~𝓟𝓡 𝓣𝓮𝓪𝚖 ♥♥️';
     actionButton.disabled = true;
     setTimeout(() => {
-        actionButton.textContent = ' ~𝓟𝓡 𝓣𝓮𝓪𝓶 ♥️';
+        actionButton.textContent = ' ~𝓟𝓡 𝓣𝓮𝚊𝚖 ♥️';
         actionButton.disabled = false;
     }, 1500);
 });
-
-// Since the canvas, music, and confetti elements are hidden/removed, 
-// the complex animations and audio logic are no longer needed.
 </script>
 </body>
 </html>
