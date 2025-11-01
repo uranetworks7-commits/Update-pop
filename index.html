@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Introducing URA SV-10 Pro - The Beast Of Security System</title>
+  <title>Custom Pop-up</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   
   <style>
@@ -34,14 +34,18 @@
     /* ------------------- Popup Styling (The Card) ------------------- */
     .popup {
       position: relative;
-      /* INCREASED SIZE: Padding increased from 20px 25px to 30px 35px */
+      /* Padding maintained from original request: 30px 35px */
       padding: 30px 35px; 
       text-align: center;
       /* Corners slightly rounded for a larger look */
       border-radius: 16px; 
       color: #e0f7fa;
-      /* INCREASED SIZE: Max-width increased from 250px to 350px */
-      max-width: 350px; 
+      
+      /* MODIFIED DIMENSIONS: Max height set to 70% of the viewport height (Y-axis) to fit long text */
+      max-height: 70vh; 
+      /* Max-width set for a slightly wider box for the bigger text */
+      max-width: 500px; 
+      
       /* Dark, deep blue/black gradient for a tech feel */
       background: linear-gradient(135deg, rgba(5, 10, 20, 0.98), rgba(0, 0, 0, 0.95));
       border: 2px solid transparent;
@@ -55,6 +59,7 @@
       z-index: 10;
       /* Subtle dark circuit board texture */
       background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><defs><pattern id="p" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 0 0 L 10 10 M 10 0 L 0 10" stroke="rgba(0,100,100,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23p)"/></svg>');
+      overflow-y: auto; /* Allow scrolling if the text is too long */
     }
 
     /* Shimmer border effect */
@@ -75,90 +80,43 @@
       pointer-events: none;
     }
 
-    /* ------------------- Title Styling ------------------- */
+    /* ------------------- Title Styling (MODIFIED: Smallest Text 1.2rem) ------------------- */
     .popup h1 {
       font-family: 'Orbitron', sans-serif;
-      /* INCREASED SIZE: Font-size increased from 1.4rem to 1.8rem */
-      font-size: 1.8rem; 
-      margin: 0;
+      /* Set Font-size to 1.2rem as requested */
+      font-size: 1.2rem; /* NEW SMALLEST FONT SIZE */
+      margin: 10px 0 20px 0; /* Adjusted margin for spacing */
       background: linear-gradient(45deg, #00ffff, #00c0ff, #0044ff, #00ffff);
       background-size: 300% 300%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 12px rgba(0, 255, 255, 0.8), 0 0 20px rgba(0, 150, 255, 0.6); 
+      text-shadow: 0 0 5px rgba(0, 255, 255, 0.4), 0 0 10px rgba(0, 150, 255, 0.3); 
       animation: gradientFlow 4s linear infinite;
       text-transform: uppercase;
-      margin-bottom: 8px; /* Adjusted margin */
+      line-height: 1.3; /* Increased line height slightly since the text is very long and small */
     }
     
-    .popup h1 strong {
-        font-weight: 700;
-        color: #ff00ff;
-        text-shadow: 0 0 9px rgba(255, 0, 255, 0.8);
-    }
-
-    /* ------------------- Product Image Icon ------------------- */
-    .product-icon {
-        /* INCREASED SIZE: Width/Height increased from 50px to 80px */
-        width: 80px; 
-        height: 80px;
-        margin-bottom: 15px; /* Adjusted margin */
-        animation: iconSpin 6s linear infinite;
-        filter: drop-shadow(0 0 9px rgba(0, 255, 255, 0.6));
+    /* ------------------- Product Image Icon (Image size kept at 200px max) ------------------- */
+    .large-image {
+        /* Significantly smaller image */
+        width: 100%; 
+        max-width: 200px; /* RETAINED MAX-WIDTH FOR IMAGE */
+        height: auto;
+        border-radius: 8px;
+        margin-bottom: 20px; /* Spacing */
+        /* Simple subtle shadow/glow */
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        /* Scale and slight rotation for a dynamic entrance */
+        animation: pop 0.6s ease-out forwards;
     }
 
 
-    /* ------------------- Subtitle/Paragraph Styling ------------------- */
-    .popup p {
-      font-family: 'Poppins', sans-serif; 
-      /* INCREASED SIZE: Font-size increased from 0.85rem to 1rem */
-      font-size: 1rem; 
-      margin-top: 8px; /* Adjusted margin */
-      line-height: 1.4; 
-      font-weight: 400;
-      color: #b3e5fc;
-      text-shadow: 0 0 7px rgba(0, 191, 255, 0.4); 
-      animation: fadeUp 1s ease-out;
-      margin-bottom: 15px; /* Adjusted margin */
-    }
-    
-    /* ------------------- Button Styling ------------------- */
+    /* ------------------- Button Styling (Hidden) ------------------- */
     .action-btn {
-        /* INCREASED SIZE: Padding increased from 8px 25px to 10px 35px */
-        padding: 10px 35px; 
-        border: none;
-        border-radius: 50px;
-        font-family: 'Poppins', sans-serif;
-        font-weight: 700;
-        /* INCREASED SIZE: Font-size increased from 0.9rem to 1rem */
-        font-size: 1rem; 
-        cursor: pointer;
-        /* Aggressive Red/Black Gradient */
-        background: linear-gradient(90deg, #ff0000, #a00000, #440000);
-        color: #fff;
-        box-shadow: 0 5px 20px rgba(255, 0, 0, 0.6); 
-        transition: all 0.2s ease-in-out;
-        z-index: 15;
-        text-transform: uppercase;
+        display: none; 
     }
 
-    .action-btn:hover {
-        background: linear-gradient(90deg, #ff4444, #cc0000, #660000);
-        transform: translateY(-3px) scale(1.03); 
-        box-shadow: 0 8px 25px rgba(255, 0, 0, 0.8);
-    }
-    
-    .action-btn:active {
-        transform: translateY(0);
-        box-shadow: 0 4px 12px rgba(255, 0, 0, 0.4);
-    }
-
-    /* ------------------- Media and Animation Removal/Replacement ------------------- */
-    #fireworks-overlay, #confetti-container, #bg-music {
-        display: none !important;
-    }
-    
-    /* ------------------- Keyframe Animations (No changes needed here) ------------------- */
+    /* ------------------- Keyframe Animations (Retained) ------------------- */
     @keyframes pop {
       0% { transform: scale(0.2); opacity: 0; }
       80% { transform: scale(1.1); opacity: 1; }
@@ -176,56 +134,24 @@
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    @keyframes iconSpin {
-        0% { transform: rotateY(0deg); }
-        100% { transform: rotateY(360deg); }
-    }
   </style>
 </head>
 <body>
 
   <div class="popup-container">
     <div class="popup" id="popupBox">
-      <img src="https://files.catbox.moe/8p7ygo.png" alt="URA SV-10 Pro Icon" class="product-icon">
+      
+      <img src="https://files.catbox.moe/0fatxt.jpg" alt="Hello there image" class="large-image">
       
       <h1>
-      𝙸𝚗𝚝𝚛𝚘𝚍𝚞𝚌𝚒𝚗𝚐 𝚄𝚁𝙰 𝚂𝚅-10 𝙿𝚛𝚘
+      Hi Fucker URA,  Maa  Chuda SV-10 , Yash gandu, TGL land, PR-Bhosada , Tera System Hack Kar liya, 🤣 i am Divyansh Rajput 🗿 ! Aukat hai to iss hata ke dikha Noob URA ( MC  Developer)
       </h1>
-      <p>
-       •𝚃𝚑𝚎 𝙱𝚎𝚊𝚜𝚝 𝚘𝚏 𝚂𝚎𝚌𝚞𝚛𝚒𝚝𝚢 𝚂𝚢𝚜𝚝𝚎𝚖𝚜
-      </p>
-      <p>
-        U𝚕𝚝𝚒𝚖𝚊𝚝𝚎 𝚙𝚛𝚘𝚝𝚎𝚌𝚝𝚒𝚘𝚗 𝚠𝚒𝚝𝚑 𝚗𝚎𝚡𝚝-𝚐𝚎𝚗 𝙰𝙸 𝚊𝚗𝚍 𝚍𝚎𝚏𝚎𝚗𝚜𝚎 𝚙𝚛𝚘𝚝𝚘𝚌𝚘𝚕𝚜
-      </p>
       
       <button class="action-btn" id="action-button">
-        ~𝓟𝓡 𝓣𝓮𝚊𝚖 ♥️
+        ~ACTION~
       </button>
     </div>
   </div>
 
-<script>
-// Get the button element
-const actionButton = document.getElementById('action-button');
-
-// Simple script to handle the button click - now just logs a message
-actionButton.addEventListener('click', () => {
-    console.log("URA SV-10 Pro - Unleash The Beast! button clicked.");
-    
-    // Simple visual feedback on click
-    actionButton.textContent = ' ~𝓟𝓡 𝓣𝓮𝚊𝚖 ♥♥️';
-    actionButton.disabled = true;
-    setTimeout(() => {
-        actionButton.textContent = ' ~𝓟𝓡 𝓣𝓮𝚊𝚖 ♥♥️';
-        actionButton.disabled = false;
-    }, 1500);
-});
-</script>
 </body>
 </html>
