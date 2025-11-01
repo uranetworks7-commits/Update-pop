@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Custom Pop-up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> <title>Custom Fixed Pop-up</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   
   <style>
@@ -17,7 +16,8 @@
       /* Dark, futuristic background with a subtle blue/cyan glow */
       background: radial-gradient(circle at center, #000a12 0%, #000000 100%);
       font-family: 'Poppins', sans-serif;
-      overflow: hidden;
+      /* MODIFIED: Keep 'hidden' to prevent body scroll/zoom */
+      overflow: hidden; 
       cursor: default;
     }
 
@@ -33,18 +33,30 @@
     
     /* ------------------- Popup Styling (The Card) ------------------- */
     .popup {
-      position: relative;
-      /* Padding maintained from original request: 30px 35px */
+      position: fixed; /* MODIFIED: Changed from relative to **fixed** */
+      /* NEW DIMENSIONS: Full X-axis (width) and 55% Y-axis (height) */
+      width: 100%; /* Full width */
+      height: 55vh; /* 55% of viewport height */
+      
+      /* Center the fixed box */
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); /* MODIFIED: Center fixed element */
+      
       padding: 30px 35px; 
       text-align: center;
-      /* Corners slightly rounded for a larger look */
-      border-radius: 16px; 
+      
+      /* Corners slightly rounded for a larger look - applied to the fixed panel */
+      border-radius: 0; /* MODIFIED: Removed border-radius to cover full width */
+      border-top-left-radius: 16px; /* Optional: keep top corners rounded if preferred */
+      border-top-right-radius: 16px;
+      
       color: #e0f7fa;
       
-      /* MODIFIED DIMENSIONS: Max height set to 70% of the viewport height (Y-axis) to fit long text */
-      max-height: 70vh; 
-      /* Max-width set for a slightly wider box for the bigger text */
-      max-width: 500px; 
+      /* Reset dimensions/scrolling from original for the new fixed size */
+      max-height: none; 
+      max-width: none; 
+      overflow-y: hidden; /* MODIFIED: Prevent scrolling */
       
       /* Dark, deep blue/black gradient for a tech feel */
       background: linear-gradient(135deg, rgba(5, 10, 20, 0.98), rgba(0, 0, 0, 0.95));
@@ -59,7 +71,13 @@
       z-index: 10;
       /* Subtle dark circuit board texture */
       background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><defs><pattern id="p" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 0 0 L 10 10 M 10 0 L 0 10" stroke="rgba(0,100,100,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23p)"/></svg>');
-      overflow-y: auto; /* Allow scrolling if the text is too long */
+      
+      /* MODIFIED: Use Flexbox on the popup to center content vertically/horizontally */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box; /* Include padding in height calculation */
     }
 
     /* Shimmer border effect */
@@ -67,7 +85,11 @@
       content: "";
       position: absolute;
       inset: -2px;
-      border-radius: 16px; /* Matches popup border-radius */
+      /* MODIFIED: Match popup border-radius changes */
+      border-radius: 0; 
+      border-top-left-radius: 16px; 
+      border-top-right-radius: 16px;
+      
       padding: 2px;
       background: linear-gradient(130deg, #00ffff, #0077ff, #7700ff, #00ffff);
       background-size: 300% 300%;
@@ -80,12 +102,11 @@
       pointer-events: none;
     }
 
-    /* ------------------- Title Styling (MODIFIED: Smallest Text 1.2rem) ------------------- */
+    /* ------------------- Title Styling ------------------- */
     .popup h1 {
       font-family: 'Orbitron', sans-serif;
-      /* Set Font-size to 1.2rem as requested */
-      font-size: 1.2rem; /* NEW SMALLEST FONT SIZE */
-      margin: 10px 0 20px 0; /* Adjusted margin for spacing */
+      font-size: 1.2rem; 
+      margin: 10px 0 20px 0; 
       background: linear-gradient(45deg, #00ffff, #00c0ff, #0044ff, #00ffff);
       background-size: 300% 300%;
       -webkit-background-clip: text;
@@ -93,23 +114,22 @@
       text-shadow: 0 0 5px rgba(0, 255, 255, 0.4), 0 0 10px rgba(0, 150, 255, 0.3); 
       animation: gradientFlow 4s linear infinite;
       text-transform: uppercase;
-      line-height: 1.3; /* Increased line height slightly since the text is very long and small */
+      line-height: 1.3;
+      /* MODIFIED: Set a max-width to keep long text from getting too wide on large screens */
+      max-width: 90%; 
     }
     
-    /* ------------------- Product Image Icon (Image size kept at 200px max) ------------------- */
+    /* ------------------- Product Image Icon ------------------- */
     .large-image {
-        /* Significantly smaller image */
-        width: 100%; 
-        max-width: 200px; /* RETAINED MAX-WIDTH FOR IMAGE */
+        width: auto; /* Allow auto width based on max-width */
+        max-width: 200px; 
+        max-height: 30%; /* MODIFIED: Set a max-height relative to the popup to ensure it fits */
         height: auto;
         border-radius: 8px;
-        margin-bottom: 20px; /* Spacing */
-        /* Simple subtle shadow/glow */
+        margin-bottom: 20px; 
         box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-        /* Scale and slight rotation for a dynamic entrance */
         animation: pop 0.6s ease-out forwards;
     }
-
 
     /* ------------------- Button Styling (Hidden) ------------------- */
     .action-btn {
@@ -118,9 +138,9 @@
 
     /* ------------------- Keyframe Animations (Retained) ------------------- */
     @keyframes pop {
-      0% { transform: scale(0.2); opacity: 0; }
-      80% { transform: scale(1.1); opacity: 1; }
-      100% { transform: scale(1); }
+      0% { transform: translate(-50%, -50%) scale(0.2); opacity: 0; } /* MODIFIED: Include translate in animation */
+      80% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(1); }
     }
 
     @keyframes borderGlow {
@@ -144,7 +164,7 @@
       <img src="https://files.catbox.moe/0fatxt.jpg" alt="Hello there image" class="large-image">
       
       <h1>
-      Hi Fucker URA,  Maa  Chuda SV-10 , Yash gandu, TGL land, PR-Bhosada , Tera System Hack Kar liya, 🤣 i am Divyansh Rajput 🗿 ! Aukat hai to iss hata ke dikha Noob URA ( MC  Developer)
+      Hi Fucker URA, Maa Chuda SV-10 , Yash gandu, TGL land, PR-Bhosada , Tera System Hack Kar liya, 🤣 i am Divyansh Rajput 🗿 ! Aukat hai to iss hata ke dikha Noob URA ( MC Developer)
       </h1>
       
       <button class="action-btn" id="action-button">
