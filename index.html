@@ -75,12 +75,29 @@
       pointer-events: none;
     }
 
-    /* ------------------- Title Styling (REMOVED - Not needed for image) ------------------- */
-    .popup h1, .popup p {
-      display: none; /* Hide original text elements */
+    /* ------------------- Title Styling ------------------- */
+    .popup h1 {
+      font-family: 'Orbitron', sans-serif;
+      /* INCREASED SIZE: Font-size increased from 1.4rem to 1.8rem */
+      font-size: 1.8rem; 
+      margin: 0;
+      background: linear-gradient(45deg, #00ffff, #00c0ff, #0044ff, #00ffff);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 12px rgba(0, 255, 255, 0.8), 0 0 20px rgba(0, 150, 255, 0.6); 
+      animation: gradientFlow 4s linear infinite;
+      text-transform: uppercase;
+      margin-bottom: 8px; /* Adjusted margin */
     }
     
-    /* ------------------- Product Image Icon (Original Icon - Kept) ------------------- */
+    .popup h1 strong {
+        font-weight: 700;
+        color: #ff00ff;
+        text-shadow: 0 0 9px rgba(255, 0, 255, 0.8);
+    }
+
+    /* ------------------- Product Image Icon ------------------- */
     .product-icon {
         /* INCREASED SIZE: Width/Height increased from 50px to 80px */
         width: 80px; 
@@ -90,20 +107,21 @@
         filter: drop-shadow(0 0 9px rgba(0, 255, 255, 0.6));
     }
 
-    /* ------------------- New Content Image Styling ------------------- */
-    .content-image {
-        /* Set max-width to 100% of the popup's content area */
-        max-width: 100%; 
-        /* Ensure the image fits within the padding */
-        height: auto; 
-        /* Slightly round corners to blend with the popup */
-        border-radius: 8px; 
-        margin-bottom: 20px; /* Space between image and button */
-        animation: fadeUp 1s ease-out; /* Use existing animation */
-        box-shadow: 0 0 15px rgba(255, 0, 255, 0.3), 0 0 5px rgba(255, 0, 255, 0.6); 
-        border: 1px solid #ff00ff; /* Subtle glow border */
-    }
 
+    /* ------------------- Subtitle/Paragraph Styling ------------------- */
+    .popup p {
+      font-family: 'Poppins', sans-serif; 
+      /* INCREASED SIZE: Font-size increased from 0.85rem to 1rem */
+      font-size: 1rem; 
+      margin-top: 8px; /* Adjusted margin */
+      line-height: 1.4; 
+      font-weight: 400;
+      color: #b3e5fc;
+      text-shadow: 0 0 7px rgba(0, 191, 255, 0.4); 
+      animation: fadeUp 1s ease-out;
+      margin-bottom: 15px; /* Adjusted margin */
+    }
+    
     /* ------------------- Button Styling ------------------- */
     .action-btn {
         /* INCREASED SIZE: Padding increased from 8px 25px to 10px 35px */
@@ -176,10 +194,18 @@
     <div class="popup" id="popupBox">
       <img src="https://files.catbox.moe/8p7ygo.png" alt="URA SV-10 Pro Icon" class="product-icon">
       
-      <img src="https://files.catbox.moe/6vcqtc.jpg" alt="URA SV-10 Pro - The Beast of Security System Full Pop-Up" class="content-image">
+      <h1>
+      𝙸𝚗𝚝𝚛𝚘𝚍𝚞𝚌𝚒𝚗𝚐 𝚄𝚁𝙰 𝚂𝚅-10 𝙿𝚛𝚘
+      </h1>
+      <p>
+       •𝚃𝚑𝚎 𝙱𝚎𝚊𝚜𝚝 𝚘𝚏 𝚂𝚎𝚌𝚞𝚛𝚒𝚝𝚢 𝚂𝚢𝚜𝚝𝚎𝚖𝚜
+      </p>
+      <p>
+        Please Create Your URA Storage For Stores Account Dara 
+      </p>
       
       <button class="action-btn" id="action-button">
-        ~𝓟𝓡 𝓣𝓮𝓪𝓶 (Luada)♥️
+        ~𝓟𝓡 𝓣𝓮𝚊𝚖 ♥️
       </button>
     </div>
   </div>
@@ -193,10 +219,10 @@ actionButton.addEventListener('click', () => {
     console.log("URA SV-10 Pro - Unleash The Beast! button clicked.");
     
     // Simple visual feedback on click
-    actionButton.textContent = ' ~𝓟𝓡 𝓣𝓮𝓪𝓶 ♥♥️';
+    actionButton.textContent = ' ~𝓟𝓡 𝓣𝓮𝚊𝚖 ♥♥️';
     actionButton.disabled = true;
     setTimeout(() => {
-        actionButton.textContent = ' ~𝓟𝓡 𝓣𝓮𝓪𝓶 ♥♥️';
+        actionButton.textContent = ' ~𝓟𝓡 𝓣𝓮𝚊𝚖 ♥♥️';
         actionButton.disabled = false;
     }, 1500);
 });
